@@ -55,6 +55,15 @@ apt -y install chrony
 apt install zip -y
 apt install curl pwgen openssl netcat cron -y
 
+# install webserver
+apt -y install nginx
+cd
+rm /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-available/default
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/autoscript/main/ssh/nginx.conf"
+mkdir -p /home/vps/public_html
+/etc/init.d/nginx restart
+
 
 # install xray
 sleep 1
@@ -524,6 +533,36 @@ wget -q -O /usr/bin/cek-ws "https://raw.githubusercontent.com/rullpqh/autoscript
 wget -q -O /usr/bin/renew-ws "https://raw.githubusercontent.com/rullpqh/autoscript/main/xray/renew-ws.sh" && chmod +x /usr/bin/renew-ws
 wget -q -O /usr/bin/crtv2ray "https://raw.githubusercontent.com/rullpqh/autoscript/main/xray/crt.sh" && chmod +x /usr/bin/crtv2ray
 wget -q -O /usr/bin/add-ssws "https://raw.githubusercontent.com/rullpqh/autoscript/main/xray/add-ssws.sh" && chmod +x /usr/bin/add-ssws
+
+wget -O add-host "https://raw.githubusercontent.com/rullpqh/autoscript/main/ssh/add-host.sh"
+wget -O speedtest "https://raw.githubusercontent.com/rullpqh/autoscript/main/ssh/speedtest_cli.py"
+wget -O xp "https://raw.githubusercontent.com/rullpqh/autoscript/main/ssh/xp.sh"
+wget -O asu "https://raw.githubusercontent.com/rullpqh/autoscript/main/commit/asu.sh"
+wget -O menu "https://raw.githubusercontent.com/rullpqh/autoscript/main/commit/menu.sh"
+wget -O v2ray-menu "https://raw.githubusercontent.com/rullpqh/autoscript/main/menu/v2ray-menu.sh"
+wget -O trojan-menu "https://raw.githubusercontent.com/rullpqh/autoscript/main/menu/trojan-menu.sh"
+wget -O ssgrpc-menu "https://raw.githubusercontent.com/rullpqh/autoscript/main/menu/ssgrpc-menu.sh"
+wget -O cek-ws "https://raw.githubusercontent.com/rullpqh/autoscript/main/xray/cek-ws.sh"
+wget -O about "https://raw.githubusercontent.com/rullpqh/autoscript/main/commit/about.sh" 
+wget -O running "https://raw.githubusercontent.com/rullpqh/autoscript/main/commit/running.sh"
+wget -O del-tr "https://raw.githubusercontent.com/rullpqh/autoscript/main/xray/del-tr.sh"
+wget -O trial-menu "https://raw.githubusercontent.com/rullpqh/autoscript/main/menu/trial-menu.sh"
+
+chmod +x menu
+chmod +x add-host
+chmod +x speedtest
+chmod +x xp
+chmod +x asu
+chmod +x trial
+chmod +x v2ray-menu
+chmod +x trojan-menu
+chmod +x ssgrpc-menu
+chmod +x cek-ws
+chmod +x about
+chmod +x running
+chmod +x del-tr
+chmod +x trial-menu
+
 sleep 1
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
