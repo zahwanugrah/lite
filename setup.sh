@@ -144,11 +144,11 @@ echo -e "$green      SCRIPT MULTY PORT               $NC"
 echo -e "$green              BY                      $NC"
 echo -e "$green        BHOIKFOST YAHYA               $NC"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-sleep 2
+sleep 3
 clear
 #wget -q "https://raw.githubusercontent.com/rullpqh/autoscript/main/ssh/cf.sh" && chmod +x cf.sh && ./cf.sh
 clear
-yellow "Add Domain for vmess/vless/trojan dll"
+yellow "Add Domain for XRAY VPN"
 echo " "
 read -rp "Input ur domain : " -e pp
     if [ -z $pp ]; then
