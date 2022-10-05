@@ -1,119 +1,198 @@
 #!/bin/bash
-m="\033[0;1;36m"
-y="\033[0;1;37m"
-yy="\033[0;1;32m"
-yl="\033[0;1;33m"
-wh="\033[0m"
-ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
-CITY=$(curl -s ipinfo.io/city )
-WKT=$(curl -s ipinfo.io/timezone )
-IPVPS=$(curl -s ipinfo.io/ip )
-	cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
-	cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
-	freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
-	tram=$( free -m | awk 'NR==2 {print $2}' )
-	swap=$( free -m | awk 'NR==4 {print $2}' )
-	up=$(uptime|awk '{ $1=$2=$(NF-6)=$(NF-5)=$(NF-4)=$(NF-3)=$(NF-2)=$(NF-1)=$NF=""; print }')
+dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
+#########################
+
+# // Exporting Language to UTF-8
+export LC_ALL='en_US.UTF-8'
+export LANG='en_US.UTF-8'
+export LANGUAGE='en_US.UTF-8'
+export LC_CTYPE='en_US.utf8'
+
+# // Export Color & Information
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[0;33m'
+export BLUE='\033[0;34m'
+export PURPLE='\033[0;35m'
+export CYAN='\033[0;36m'
+export LIGHT='\033[0;37m'
+export NC='\033[0m'
+
+# // Export Banner Status Information
+export EROR="[${RED} EROR ${NC}]"
+export INFO="[${YELLOW} INFO ${NC}]"
+export OKEY="[${GREEN} OKEY ${NC}]"
+export PENDING="[${YELLOW} PENDING ${NC}]"
+export SEND="[${YELLOW} SEND ${NC}]"
+export RECEIVE="[${YELLOW} RECEIVE ${NC}]"
+
+# // Export Align
+export BOLD="\e[1m"
+export WARNING="${RED}\e[5m"
+export UNDERLINE="\e[4m"
+
+# // Exporting URL Host
+export Server_URL="autosc.me/aio"
+export Server_Port="443"
+export Server_IP="underfined"
+export Script_Mode="Stable"
+export Auther="XdrgVPN"
+
+# // Root Checking
+if [ "${EUID}" -ne 0 ]; then
+		echo -e "${EROR} Please Run This Script As Root User !"
+		exit 1
+fi
+
+# // Exporting IP Address
+export IP=$( curl -s https://ipinfo.io/ip/ )
+
+# // SSH Websocket Proxy
+ssh_ws=$( systemctl status ws-epro | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $ssh_ws == "running" ]]; then
+ status_ws="${GREEN}ON${NC}"
+else
+ status_ws="${RED}OFF${NC}"
+fi
+
+# // nginx
+nginx=$( systemctl status nginx | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $nginx == "running" ]]; then
+ status_nginx="${GREEN}ON${NC}"
+else
+ status_nginx="${RED}OFF${NC}"
+fi
+
+# // SSH Websocket Proxy
+xray=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+if [[ $xray == "running" ]]; then
+ status_xray="${GREEN}ON${NC}"
+else
+ status_xray="${RED}OFF${NC}"
+fi
+
+
 clear
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e  "  🔰\e[32;1mCPU Model:\e[0m $cname  "
-echo -e  "  🔰\e[32;1mNumber Of Cores:\e[0m $cores"
-echo -e  "  🔰\e[32;1mCPU Frequency:\e[0m $freq MHz"
-echo -e  "  🔰\e[32;1mTotal Amount Of RAM:\e[0m $tram MB"
-echo -e  "  🔰\e[32;1mSystem Uptime:\e[0m $up"
-echo -e  "  🔰\e[32;1mIsp Name:\e[0m $ISP"
-echo -e  "  🔰\e[32;1mIp Vps:\e[0m $IPVPS"
-echo -e  "  🔰\e[32;1mCity:\e[0m $CITY"
-echo -e  "  🔰\e[32;1mTime:\e[0m $WKT"
-echo -e  "  🔰\e[32;1mScript:\e[0m bhoikfost yahya "
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e "$y                       Xray VPN  $wh"
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e "$yy 01$y. Membuat akun Trojan"
-echo -e "$yy 02$y. Menghapus akun Trojan"
-echo -e "$yy 03$y. Merenew Akun Trojan"
-echo -e "$yy 04$y. Cek Akun Trojan"
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e "$yy 05$y. Membuat akun vless"
-echo -e "$yy 06$y. Menghapus akun vless"
-echo -e "$yy 07$y. Merenew Akun vless"
-echo -e "$yy 08$y. Cek vless"
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e "$yy 09$y. Membuat akun vmess"
-echo -e "$yy 10$y. Menghapus akun vmess"
-echo -e "$yy 11$y. Merenew Akun vmess"
-echo -e "$yy 12$y. Cek vmess"
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-echo -e "$yy 13$y. Test kecepatan server"
-echo -e "$y════════════════════════════════════════════════════════════$wh"
-read -p "Select From Options [ 1 - 12 ] : " menu
+clear
+clear
+clear
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e "\E[44;1;39m⇱ INFORMASI VPS ⇲\E[0m"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+
+echo -e "□ Sever Uptime  = $( uptime -p  | cut -d " " -f 2-10000 ) "
+echo -e "□ Current Time  = $( date -d "0 days" +"%d-%m-%Y | %X" )"
+echo -e "□ Operating System = $( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )"
+echo -e "□ Current Domain= $( cat /etc/xray/domain )"
+echo -e "□ Server IP  = ${IP}"
+echo -e "□ Time Reboot VPS  = 00:00 ( Jam 12 Malam )"
+echo -e "□ License SC Limit = Lifetime"
+echo -e "□ AutoScript By Dev= BHOIKFOST YAHYA"
+
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e "\E[44;1;39m⇱ STATUS LAYANAN ⇲  \E[0m"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e ""
+echo -e " [ ${GREEN}SSH WebSocket${NC} : ON ]  [ ${GREEN}XRAY${NC} : ${status_xray} ][ ${GREEN}NGINX${NC} : ${status_nginx} ]"
+echo -e ""
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e "\E[44;1;39m⇱ MENU LAYANAN ⇲ \E[0m"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e ""
+echo -e " [${GREEN}01${NC}]${RED} •${NC}Membuat akun Trojan  $NC"
+echo -e " [${GREEN}02${NC}]${RED} •${NC}Menghapus akun Trojan $NC"  
+echo -e " [${GREEN}03${NC}]${RED} •${NC}Merenew Akun Trojan$NC"  
+echo -e " [${GREEN}04${NC}]${RED} •${NC}Cek Akun Trojan$NC"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e " [${GREEN}05${NC}]${RED} •${NC}Membuat akun vless $NC"  
+echo -e " [${GREEN}06${NC}]${RED} •${NC}Menghapus akun vless $NC"
+echo -e " [${GREEN}07${NC}]${RED} •${NC}Merenew Akun vless $NC"
+echo -e " [${GREEN}08${NC}]${RED} •${NC}Cek vless $NC"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e " [${GREEN}09${NC}]${RED} •${NC}Membuat akun vmess $NC"
+echo -e " [${GREEN}10${NC}]${RED} •${NC}Menghapus akun vmess $NC"
+echo -e " [${GREEN}11${NC}]${RED} •${NC}Merenew Akun vmess $NC"
+echo -e " [${GREEN}12${NC}]${RED} •${NC}Cek vmess $NC"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e " [${GREEN}13${NC}]${RED} •${NC}Test kecepatan server $NC"
+echo -e " [${GREEN}14${NC}]${RED} •${NC}RESTORE DATA $NC"
+echo -e "
+echo -e " ${RED}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e "\E[44;1;39m⇱ XRAY-VPN OFFICIAL ⇲ \E[0m"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+echo -e ""
+read -p "Select From Options [ 1 - 13 ] : " menu
+
 case "$x" in 
-   1 | 01)
-   clear
-   add-tr
-   break
-   ;;
-   2 | 02)
-   clear
-   del-tr
-   break
-   ;;
-   3 | 03)
-   clear
-   renew-tr
-   break
-   ;;
-   4 | 04)
-   clear
-   cek-tr
-   break
-   ;;
-   5 | 05)
-   clear
-   add-vless
-   break
-   ;;
-   6 | 06)
-   clear
-   del-vless
-   break
-   ;;
-   7 | 07)
-   clear
-   renew-vless
-   break
-   ;;
-   8 | 08)
-   clear
-   cek-vless
-   break
-   ;;
-   9 | 10)
-   clear
-   add-ws
-   break
-   ;;
-   10 | 10)
-   clear
-   del-ws
-   break
-   ;;
-   11 | 11)
-   clear
-   renew-ws
-   break
-   ;;
-   12 | 12)
-   clear
-   cek-ws
-   break
-   ;;
-   13 | 13)
-   clear
-   speedtest
-   break
-   ;;
-   *)
-   clear
+1 | 01)
+clear
+add-tr
+break
+;;
+2 | 02)
+clear
+del-tr
+break
+;;
+3 | 03)
+clear
+renew-tr
+break
+;;
+4 | 04)
+clear
+cek-tr
+break
+;;
+5 | 05)
+clear
+add-vless
+break
+;;
+6 | 06)
+clear
+del-vless
+break
+;;
+7 | 07)
+clear
+renew-vless
+break
+;;
+8 | 08)
+clear
+cek-vless
+break
+;;
+9 | 10)
+clear
+add-ws
+break
+;;
+10 | 10)
+clear
+del-ws
+break
+;;
+11 | 11)
+clear
+renew-ws
+break
+;;
+12 | 12)
+clear
+cek-ws
+break
+;;
+13 | 13)
+clear
+speedtest
+exit
+;;
+*)
+clear
+menu
+;;
 esac
-done
