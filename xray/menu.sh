@@ -20,9 +20,9 @@ export LIGHT='\033[0;37m'
 export NC='\033[0m'
 
 # // Export Banner Status Information
-export EROR="[${RED} EROR ${NC}]"
+export ERORR="[${RED} EROR ${NC}]"
 export INFO="[${YELLOW} INFO ${NC}]"
-export OKEY="[${GREEN} OKEY ${NC}]"
+export ACTIVE="[${GREEN} ACTIVE ${NC}]"
 export PENDING="[${YELLOW} PENDING ${NC}]"
 export SEND="[${YELLOW} SEND ${NC}]"
 export RECEIVE="[${YELLOW} RECEIVE ${NC}]"
