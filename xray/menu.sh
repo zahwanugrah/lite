@@ -42,7 +42,7 @@ echo -e "$y═══════════════════════
 echo -e "$yy 09$y. Membuat akun vmess"
 echo -e "$yy 10$y. Menghapus akun vmess"
 echo -e "$yy 11$y. Merenew Akun vmess"
-echo -e "$yy 12$y. Cek vless"
+echo -e "$yy 12$y. Cek vmess"
 echo -e "$y════════════════════════════════════════════════════════════$wh"
 echo -e "$yy 13$y. Test kecepatan server"
 echo -e "$y════════════════════════════════════════════════════════════$wh"
