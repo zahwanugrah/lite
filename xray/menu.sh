@@ -47,60 +47,73 @@ echo -e "$y═══════════════════════
 echo -e "$yy 13$y. Test kecepatan server"
 echo -e "$y════════════════════════════════════════════════════════════$wh"
 read -p "Select From Options [ 1 - 12 ] : " menu
-case $menu in
-1)
-clear
-add-tr
-;;
-2)
-clear
-del-tr
-;;
-3)
-clear
-renew-tr
-;;
-4)
-clear
-cek-tr
-;;
-5)
-clear
-add-vless
-;;
-6)
-clear
-del-vless
-;;
-7)
-clear
-renew-vless
-;;
-8)
-clear
-cek-vless
-;;
-9)
-clear
-add-ws
-;;
-10)
-clear
-del-ws
-;;
-11)
-clear
-renew-ws
-;;
-12)
-clear
-cek-ws
-;;
-13)
-clear
-speedtest
-*)
-clear
-menu
-;;
+case "$x" in 
+   1 | 01)
+   clear
+   add-tr
+   break
+   ;;
+   2 | 02)
+   clear
+   del-tr
+   break
+   ;;
+   3 | 03)
+   clear
+   renew-tr
+   break
+   ;;
+   4 | 04)
+   clear
+   cek-tr
+   break
+   ;;
+   5 | 05)
+   clear
+   add-vless
+   break
+   ;;
+   6 | 06)
+   clear
+   del-vless
+   break
+   ;;
+   7 | 07)
+   clear
+   renew-vless
+   break
+   ;;
+   8 | 08)
+   clear
+   cek-vless
+   break
+   ;;
+   9 | 10)
+   clear
+   add-ws
+   break
+   ;;
+   10 | 10)
+   clear
+   del-ws
+   break
+   ;;
+   11 | 11)
+   clear
+   renew-ws
+   break
+   ;;
+   12 | 12)
+   clear
+   cek-ws
+   break
+   ;;
+   13 | 13)
+   clear
+   speedtest
+   break
+   ;;
+   *)
+   clear
 esac
+done
