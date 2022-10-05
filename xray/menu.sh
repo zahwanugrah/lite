@@ -48,13 +48,6 @@ fi
 # // Exporting IP Address
 export IP=$( curl -s https://ipinfo.io/ip/ )
 
-# // SSH Websocket Proxy
-ssh_ws=$( systemctl status ws-epro | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
-if [[ $ssh_ws == "running" ]]; then
- status_ws="${GREEN}ON${NC}"
-else
- status_ws="${RED}OFF${NC}"
-fi
 
 # // nginx
 nginx=$( systemctl status nginx | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
@@ -62,14 +55,6 @@ if [[ $nginx == "running" ]]; then
  status_nginx="${GREEN}ON${NC}"
 else
  status_nginx="${RED}OFF${NC}"
-fi
-
-# // SSH Websocket Proxy
-xray=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-if [[ $xray == "running" ]]; then
- status_xray="${GREEN}ON${NC}"
-else
- status_xray="${RED}OFF${NC}"
 fi
 
 
@@ -81,20 +66,20 @@ echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━�
 echo -e "\E[44;1;39m⇱ INFORMASI VPS ⇲\E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 
-echo -e "□ Sever Uptime  = $( uptime -p  | cut -d " " -f 2-10000 ) "
-echo -e "□ Current Time  = $( date -d "0 days" +"%d-%m-%Y | %X" )"
-echo -e "□ Operating System = $( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )"
-echo -e "□ Current Domain= $( cat /etc/xray/domain )"
-echo -e "□ Server IP  = ${IP}"
-echo -e "□ Time Reboot VPS  = 00:00 ( Jam 12 Malam )"
-echo -e "□ License SC Limit = Lifetime"
-echo -e "□ AutoScript By Dev= BHOIKFOST YAHYA"
+echo -e "□ 🔰Sever Uptime  = $( uptime -p  | cut -d " " -f 2-10000 ) "
+echo -e "□ 🔰Current Time  = $( date -d "0 days" +"%d-%m-%Y | %X" )"
+echo -e "□ 🔰Operating System = $( cat /etc/os-release | grep -w PRETTY_NAME | sed 's/PRETTY_NAME//g' | sed 's/=//g' | sed 's/"//g' ) ( $( uname -m) )"
+echo -e "□ 🔰Current Domain= $( cat /etc/xray/domain )"
+echo -e "□ 🔰Server IP  = ${IP}"
+echo -e "□ 🔰Time Reboot VPS  = 00:00 ( Jam 12 Malam )"
+echo -e "□ 🔰License SC Limit = Lifetime"
+echo -e "□ 🔰AutoScript By Dev= BHOIKFOST YAHYA"
 
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e "\E[44;1;39m⇱ STATUS LAYANAN ⇲  \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e ""
-echo -e " [ ${GREEN}SSH WebSocket${NC} : ON ]  [ ${GREEN}XRAY${NC} : ${status_xray} ][ ${GREEN}NGINX${NC} : ${status_nginx} ]"
+echo -e " [ ${GREEN}SERVER XRAY VPN${NC} : ${status_nginx} ]"
 echo -e ""
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e "\E[44;1;39m⇱ MENU LAYANAN ⇲ \E[0m"
@@ -196,3 +181,4 @@ clear
 menu
 ;;
 esac
+
