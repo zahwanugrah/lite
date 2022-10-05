@@ -57,10 +57,6 @@ else
  status_nginx="${RED}OFF${NC}"
 fi
 
-
-clear
-clear
-clear
 clear
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e "\E[44;1;39m⇱ INFORMASI VPS ⇲\E[0m"
@@ -101,78 +97,71 @@ echo -e " [${GREEN}11${NC}]${RED} •${NC}Merenew Akun vmess $NC"
 echo -e " [${GREEN}12${NC}]${RED} •${NC}Cek vmess $NC"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e " [${GREEN}13${NC}]${RED} •${NC}Test kecepatan server $NC"
+echo -e " [${GREEN}14${NC}]${RED} •${NC}Reboot server $NC"
 echo -e "
 echo -e " ${RED}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m⇱ XRAY-VPN OFFICIAL ⇲ \E[0m"
+echo -e "\E[44;1;39m                     ⇱ XRAY-VPN OFFICIAL ⇲                      \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e ""
-read -p "Select From Options [ 1 - 13 ] : " menu
 
-case "$x" in 
-1 | 01)
+echo -e ""
+
+read -p "Select From Options [ 1 - 14 ] : " menu
+case $menu in
+1)
 clear
 add-tr
-break
 ;;
-2 | 02)
+2)
 clear
 del-tr
-break
 ;;
-3 | 03)
+3)
 clear
 renew-tr
-break
 ;;
-4 | 04)
+4)
 clear
 cek-tr
-break
 ;;
-5 | 05)
+5)
 clear
 add-vless
-break
 ;;
-6 | 06)
+6)
 clear
 del-vless
-break
 ;;
-7 | 07)
+7)
 clear
 renew-vless
-break
 ;;
-8 | 08)
+8)
 clear
 cek-vless
-break
 ;;
-9 | 10)
+9)
 clear
 add-ws
-break
 ;;
-10 | 10)
+10)
 clear
 del-ws
-break
 ;;
-11 | 11)
+11)
 clear
 renew-ws
-break
 ;;
-12 | 12)
+12)
 clear
 cek-ws
-break
 ;;
-13 | 13)
+13)
 clear
 speedtest
+;;
+14)
+reboot
 exit
 ;;
 *)
