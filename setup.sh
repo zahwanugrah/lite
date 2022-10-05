@@ -116,7 +116,7 @@ clear
 echo " "
 echo "=====================-[ SCRIPT INFO ]-===================="
 echo ""
-echo "------------------------------------------------------------"
+echo "----------------------------------------------------------"
 echo ""
 echo ""
 echo "   >>> Service & Port"  | tee -a log-install.txt
@@ -129,7 +129,7 @@ echo "   - Trojan WS + gRPC        : 443" | tee -a log-install.txt
 echo ""
 echo "------------------------------------------------------------"
 echo ""
-echo "===============-[ Script Created By Bhoikfost Yahya ]-==============="
+echo "===========-[ Script Created By Bhoikfost Yahya ]-=========="
 echo -e ""
 echo ""
 echo "" | tee -a log-install.txt
