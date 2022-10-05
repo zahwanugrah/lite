@@ -208,6 +208,8 @@ else
 gg="AM"
 fi
 curl -sS ifconfig.me > /etc/myipvps
+
+clear
 echo " "
 echo "=====================-[ SCRIPT INFO ]-===================="
 echo ""
