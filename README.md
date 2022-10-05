@@ -14,11 +14,14 @@
 Ini merupakan sebuah script yang memudahkan para Pengguna VPN untuk install package-package yang diperlukan
 Selain itu Script yang sangat ringan Dan Fast Respon
 
-### VPN Services:
+### Service & Port:
   Service Port
-- Xray (XTLS) | 443
-- Xray (XTLS) | 8443
-- Xray (WebSocket) | 80
+ - XRAY  Vmess TLS + gRPC  : 443
+ - XRAY  Vless TLS + gRPC  : 443
+ - Trojan WS + gRPC        : 443
+ - XRAY  Vmess None TLS    : 80
+ - XRAY  Vless None TLS    : 80
+ - Nginx                   : 81
 
 ### Other Services:
 Speedtest CLI
