@@ -1,66 +1,89 @@
 #!/bin/bash
-#########################
-
-MYIP=$(wget -qO- ipinfo.io/ip);
-echo "Checking VPS"
+red='\e[1;31m'
+green='\e[0;32m'
+yell='\e[1;33m'
+tyblue='\e[1;36m'
+NC='\e[0m'
+purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
+tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
+yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 clear
+source /var/lib/scrz-prem/ipvps.conf
+if [[ "$IP" = "" ]]; then
+domain=$(cat /etc/xray/domain)
+else
+domain=$IP
+fi
+
+tls="$(cat ~/log-install.txt | grep -w "Vmess TLS" | cut -d: -f2|sed 's/ //g')"
+none="$(cat ~/log-install.txt | grep -w "Vmess None TLS" | cut -d: -f2|sed 's/ //g')"
+until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\E[44;1;39m           ⇱ XRAY GRPC ⇲           \E[0m"
+echo -e "\\E[0;41;36m      Add Xray/Vmess Account      \E[0m"
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 
-domain=$(cat /etc/xray/domain)
-tls=$(cat /etc/xray/grpc/vmessgrpc.json | grep port | awk '{print $2}' | sed 's/,//g')
-until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
 		read -rp "User: " -e user
-		CLIENT_EXISTS=$(grep -w $user /etc/xray/grpc/vmessgrpc.json | wc -l)
+		CLIENT_EXISTS=$(grep -w $user /etc/xray/config.json | wc -l)
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
+clear
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+            echo -e "\\E[0;41;36m      Add Xray/Vmess Account      \E[0m"
+            echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 			echo ""
 			echo "A client with the specified name was already created, please choose another name."
-			exit 1
+			echo ""
+			echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+			read -n 1 -s -r -p "Press any key to back on menu"
+menu
 		fi
 	done
+
 uuid=$(cat /proc/sys/kernel/random/uuid)
-masaaktif="100000"
-#dom=$sub.$domain
-exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
+read -p "Expired (days): " masaaktif
 sed -i '/#vmessgrpc$/a\### '"$user $exp"'\
-},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/grpc/vmessgrpc.json << EOF
+},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /etc/xray/config.json
+grpc=`cat<<EOF
       {
-      "v": "0",
+      "v": "2",
       "ps": "${user}",
-      "add": "${dom}",
-      "port": "${tls}",
+      "add": "${domain}",
+      "port": "443",
       "id": "${uuid}",
       "aid": "0",
       "net": "grpc",
-      "path": "grpc",
+      "path": "vmess-grpc",
       "type": "none",
-      "host": "${sni}",
+      "host": "",
       "tls": "tls"
 }
-EOF
-vmess_base641=$( base64 -w 0 <<< $vmess_json1)
-vmesslink1="vmess://$(base64 -w 0 /etc/xray/grpc/$user-tls.json)"
-systemctl restart xray.service
-systemctl restart vmess-grpc.service
-service cron restart
-echo ""
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\E[44;1;39m           ⇱ XRAY GRPC ⇲           \E[0m"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "Remarks           : ${user}"
-echo -e "Domain            : ${domain}"
-echo -e "Port VMess        : ${tls}"
-echo -e "ID                : ${uuid}"
-echo -e "Alter ID          : 0"
-echo -e "Mode              : Gun"
-echo -e "Security          : TLS"
-echo -e "Type              : grpc"
-echo -e "Service Name      : grpc"
-echo -e "SNI               : $sni"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "Link VMess GRPC  : "
-echo -e "${vmesslink1}"
-echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo ""
+EOF`
+vmess_base643=$( base64 -w 0 <<< $vmess_json3)
+vmesslink3="vmess://$(echo $grpc | base64 -w 0)"
+systemctl restart xray > /dev/null 2>&1
+service cron restart > /dev/null 2>&1
+clear
+echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+echo -e "\\E[0;41;36m        Xray/Vmess Account        \E[0m" | tee -a /etc/log-create-user.log
+echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+echo -e "Remarks : ${user}" | tee -a /etc/log-create-user.log
+echo -e "Domain : ${domain}" | tee -a /etc/log-create-user.log
+echo -e "Port  GRPC : ${tls}" | tee -a /etc/log-create-user.log
+echo -e "id : ${uuid}" | tee -a /etc/log-create-user.log
+echo -e "alterId : 0" | tee -a /etc/log-create-user.log
+echo -e "Security : auto" | tee -a /etc/log-create-user.log
+echo -e "Network : ws" | tee -a /etc/log-create-user.log
+echo -e "ServiceName : vmess-grpc" | tee -a /etc/log-create-user.log
+echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+echo -e "Link GRPC : ${vmesslink3}" | tee -a /etc/log-create-user.log
+echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+echo -e "Expired On : $exp" | tee -a /etc/log-create-user.log
+echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m" | tee -a /etc/log-create-user.log
+echo "" | tee -a /etc/log-create-user.log
+rm /etc/xray/$user-tls.json > /dev/null 2>&1
+rm /etc/xray/$user-none.json > /dev/null 2>&1
+read -n 1 -s -r -p "Press any key to back on menu"
+
+menu
