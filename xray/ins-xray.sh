@@ -550,7 +550,7 @@ yellow "xray/Vmess"
 yellow "xray/Vless"
 clear
 echo -e "[ ${green}INFO$NC ] SETTING SERVER SUKSES"
-sleep 1
+sleep 5
 
 
 mv /root/domain /etc/xray/ 
