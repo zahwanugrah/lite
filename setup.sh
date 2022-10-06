@@ -49,25 +49,40 @@ mkdir -p /var/lib/scrz-prem >/dev/null 2>&1
 echo "IP=" >> /var/lib/scrz-prem/ipvps.conf
 
 if [ -f "/etc/xray/domain" ]; then
+clear
 echo ""
-echo -e "[ ${green}INFO${NC} ] Script Siap Diinstall"
-echo -ne "[ ${yell}WARNING${NC} ] Apakah Anda Ingin Mulai Menginstall? (y/n)? "
+echo -e "[ ${green}INFO ${NC} ] Autoscript xray vpn lite (multi port)"
+echo -e "[ ${green}INFO${NC} ] no licence script (free lifetime)"
+echo -e "[ ${red}INFO${NC} ] Pastikan internet lancar saat insatll script"
+echo -e "[ ${red}INFO${NC} ] Hubungkan terlebih dahulu IP VPS anda ke Domain"
+echo -ne "[ ${yell}WARNING${NC} ] MELANJUTKAN UNTUK INSTALL AUTOSCRIPT  (y/n)? "
 read answer
 if [ "$answer" == "${answer#[Yy]}" ] ;then
 rm setup.sh
-sleep 10
+sleep 5
 exit 0
 else
 clear
 fi
 fi
-
 echo ""
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green      SCRIPT MULTY PORT               $NC"
-echo -e "$green              BY                      $NC"
-echo -e "$green        BHOIKFOST YAHYA               $NC"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green______ ______       ___________ ________            _____  $NC"   
+echo -e "$green___  /____  /__________(_)__  /____  __/______________  /_ $NC"  
+echo -e "$green__  __ \_  __ \  __ \_  /__  //_/_  /_ _  __ \_  ___/  __/ $NC"  
+echo -e "$green_  /_/ /  / / / /_/ /  / _  ,<  _  __/ / /_/ /(__  )/ /_   $NC" 
+echo -e "$green/_.___//_/ /_/\____//_/  /_/|_| /_/    \____//____/ \__/   $NC"                                                    
+echo -e "$green             ______                                        $NC" 
+echo -e "$green_____  _______ ___  /______  _______ _                     $NC"   
+echo -e "$green__  / / /  __ `/_  __ \_  / / /  __ `/                     $NC"  
+echo -e "$green_  /_/ // /_/ /_  / / /  /_/ // /_/ /                      $NC"   
+echo -e "$green_\__, / \__,_/ /_/ /_/_\__, / \__,_/                       $NC"   
+echo -e "$green/____/                /____/                               $NC"   
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green              FREE AUTOSCRIPT VPS                          $NC"
+echo -e "$green             NO LICENCE USER SETUP                         $NC"
+echo -e "$green            MULTI PORT XRAY 443 + 80                       $NC"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 sleep 3
 clear
 
