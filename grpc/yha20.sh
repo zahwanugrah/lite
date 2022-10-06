@@ -156,6 +156,8 @@ systemctl restart vmess-grpc
 systemctl restart xray.service
 
 wget -O add "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/add.sh"
+wget -O del "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/del.sh"
+wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/menu.sh"
 chmod +x /usr/bin/*
 
 
