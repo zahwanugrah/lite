@@ -11,22 +11,14 @@ tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-clear
-echo "XRAY Core Vmess / Vless"
-echo "Trojan"
-echo "Progress..."
-sleep 1
-green() { echo -e "\\033[32;1m${*}\\033[0m"; }
-red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-echo -e "
-"
+
 mkdir -p /etc/xray
 mkdir -p /etc/v2ray
 touch /etc/xray/domain
 touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
-yellow "Add Domain for XRAY VPN"
+
 echo " "
 read -rp "Input ur domain : " -e pp
     if [ -z $pp ]; then
@@ -41,6 +33,15 @@ read -rp "Input ur domain : " -e pp
 	echo $pp > /root/domain
         echo "IP=$pp" > /var/lib/scrz-prem/ipvps.conf
     fi
+clear
+yellow "SERVER for XRAY VPN"
+echo "XRAY Core Vmess"
+echo "Progress..."
+sleep 1
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+echo -e "
+"   
 date
 echo ""
 domain=$(cat /root/domain)
