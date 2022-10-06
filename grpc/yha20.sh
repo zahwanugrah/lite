@@ -86,8 +86,7 @@ chmod +x /root/.acme.sh/acme.sh
 # set uuid
 uuid=$(cat /proc/sys/kernel/random/uuid)
 # xray config
-cat > /etc/xray/config.json << END
-cat > /etc/xray/grpc/vmessgrpc.json << EOF
+cat > /etc/xray/config.json << END<< EOF
 {
     "log": {
             "access": "/var/log/xray/access5.log",
