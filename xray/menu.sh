@@ -58,7 +58,7 @@ fi
 
 clear
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m             ⇱ INFORMASI VPS ⇲                                       \E[0m"
+echo -e "\E[44;1;39m             ⇱ INFORMASI VPS ⇲                                   \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 
 echo -e "□ 🔰\e[32;1mSever Uptime\e[0m      = $( uptime -p  | cut -d " " -f 2-10000 ) "
@@ -71,13 +71,13 @@ echo -e "□ 🔰\e[32;1mLicense SC Limit\e[0m  = Lifetime"
 echo -e "□ 🔰\e[32;1mAutoScript By Dev\e[0m = BHOIKFOST YAHYA"
 
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m             ⇱ STATUS LAYANAN ⇲                                      \E[0m"
+echo -e "\E[44;1;39m             ⇱ STATUS LAYANAN ⇲                                  \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e ""
 echo -e "       🟢🟡🔴 [ ${GREEN}SERVER XRAY VPN${NC} : ${status_nginx} ] 🔴🟡🟢"
 echo -e ""
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m              ⇱ MENU LAYANAN ⇲                                       \E[0m"
+echo -e "\E[44;1;39m              ⇱ MENU LAYANAN ⇲                                   \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e ""
 echo -e " [${GREEN}01${NC}]${RED} •${NC}Membuat Akun Trojan  $NC"
@@ -100,7 +100,7 @@ echo -e " [${GREEN}14${NC}]${RED} •${NC}Reboot server $NC"
 echo -e ""
 echo -e " ${RED}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m              ⇱ XRAY-VPN OFFICIAL ⇲                                  \E[0m"
+echo -e "\E[44;1;39m              ⇱ XRAY-VPN OFFICIAL ⇲                              \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 
 echo -e ""
