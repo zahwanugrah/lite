@@ -39,9 +39,36 @@ read -rp "Input ur domain : " -e pp
         echo "IP=$pp" > /var/lib/scrz-prem/ipvps.conf
 
     fi
+clear
+echo "XRAY Core VMESS GRPC"
+echo "Progress..."
+sleep 2
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+echo -e "
+"
 
+date
+echo ""
+domain=$(cat /root/domain)
+mkdir -p /etc/xray
+apt clean all && apt update
+apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
+apt install socat cron bash-completion ntpdate -y
+ntpdate pool.ntp.org
+apt -y install chrony
+apt install zip -y
+apt install curl pwgen openssl netcat cron -y
+clear
 
-
+ntpdate pool.ntp.org 
+timedatectl set-ntp true
+systemctl enable chronyd
+systemctl restart chronyd
+timedatectl set-timezone Asia/Jakarta
+chronyc sourcestats -v
+chronyc tracking -v
+clear
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
