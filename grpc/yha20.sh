@@ -263,8 +263,8 @@ systemctl enable runn
 systemctl restart runn
 
 
-wget -q -O /usr/bin/add-ws "https://raw.githubusercontent.com/rullpqh/lite/main/xray/add-ws.sh" && chmod +x /usr/bin/add-ws
-wget -q -O /usr/bin/del-ws "https://raw.githubusercontent.com/rullpqh/lite/main/xray/del-ws.sh" && chmod +x /usr/bin/del-ws
+wget -q -O /usr/bin/add-ws "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/add.sh" && chmod +x /usr/bin/add-ws
+wget -q -O /usr/bin/del-ws "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/del.sh" && chmod +x /usr/bin/del-ws
 wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/menu.sh" && chmod +x /usr/bin/menu
 
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
