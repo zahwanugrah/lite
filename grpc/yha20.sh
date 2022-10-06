@@ -118,7 +118,7 @@ cat > /etc/xray/vmessgrpc.json << END
                     ]
                 },
                 "grpcSettings": {
-                    "serviceName": "GunService"
+                    "serviceName": "grpc"
                 }
             }
         }
