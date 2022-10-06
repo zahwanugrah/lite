@@ -24,7 +24,7 @@ export OKEY="[${GREEN} OKEY ${NC}]"
 export PENDING="[${YELLOW} PENDING ${NC}]"
 export SEND="[${YELLOW} SEND ${NC}]"
 export RECEIVE="[${YELLOW} RECEIVE ${NC}]"
-ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
+
 # / letssgoooo
 
 # // Export Align
@@ -47,6 +47,7 @@ fi
 
 # // Exporting IP Address
 export IP=$( curl -s https://ipinfo.io/ip/ )
+export ISP=$(curl -s ipinfo.io/org/ )
 
 
 # // nginx
