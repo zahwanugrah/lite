@@ -11,6 +11,7 @@ yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 clear
+ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
 source /var/lib/scrz-prem/ipvps.conf
 if [[ "$IP" = "" ]]; then
 domain=$(cat /etc/xray/domain)
