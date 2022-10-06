@@ -154,12 +154,13 @@ systemctl daemon-reload
 systemctl enable vmess-grpc
 systemctl restart vmess-grpc
 systemctl restart xray.service
-
+clear
+echo "menu" >> /root/.profile
 wget -O add "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/add.sh"
 wget -O del "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/del.sh"
 wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/grpc/main/menu.sh"
 chmod +x /usr/bin/*
-
+clear
 
 cd
 rm /root/yha20.sh
