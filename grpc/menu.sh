@@ -27,7 +27,6 @@ echo -e " $blue[•1]$NC Create Grpc VMESS Accounts                             
 echo -e " $blue[•2]$NC Delete Grpc VMESS Accounts                                   "
 echo ""
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e " $blue[•x]$NC Main Menu                                                        " 
 read -p "     Select From Options [1-2] :  " menu
 case $menu in
 1)
