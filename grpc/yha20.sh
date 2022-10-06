@@ -117,8 +117,7 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
 
-read -p "Press Enter to Continue : "
-sleep 1
+
 
 cat > /etc/xray/grpc/vmessgrpc.json << EOF
 {
@@ -192,5 +191,6 @@ clear
 cd
 rm /root/yha20.sh
 systemctl start xray.service
-read -p "Press Enter to Continue : "
-sleep 1
+cd
+clear
+bash .profile
