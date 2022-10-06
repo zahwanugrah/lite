@@ -38,76 +38,50 @@ clear
 yellow "SERVER for XRAY VPN"
 echo "XRAY Core Vmess"
 echo "Progress..."
-sleep 1
-green() { echo -e "\\033[32;1m${*}\\033[0m"; }
-red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-echo -e "
-"   
-date
-echo ""
-domain=$(cat /root/domain)
-mkdir -p /etc/xray
-apt clean all && apt update
+MYIP=$(wget -qO- ipinfo.io/ip);
+clear
+domain=$(cat /etc/xray/domain)
+apt install iptables iptables-persistent -y
 apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
 apt install socat cron bash-completion ntpdate -y
 ntpdate pool.ntp.org
 apt -y install chrony
-apt install zip -y
-apt install curl pwgen openssl netcat cron -y
-clear
-
-echo -e "[ ${green}INFO${NC} ] Checking... "
-apt install iptables iptables-persistent -y
-echo -e "[ ${green}INFO$NC ] Setting ntpdate"
-ntpdate pool.ntp.org 
 timedatectl set-ntp true
-echo -e "[ ${green}INFO$NC ] Enable chronyd"
-systemctl enable chronyd
-systemctl restart chronyd
-echo -e "[ ${green}INFO$NC ] Enable chrony"
-systemctl enable chrony
-systemctl restart chrony
+systemctl enable chronyd && systemctl restart chronyd
+systemctl enable chrony && systemctl restart chrony
 timedatectl set-timezone Asia/Jakarta
-echo -e "[ ${green}INFO$NC ] Setting chrony tracking"
 chronyc sourcestats -v
 chronyc tracking -v
-echo -e "[ ${green}INFO$NC ] Setting service"
+date
 clear
-yellow "XRAY VPN VMESS ONLY"
-echo " "
-
-# install xray
-echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
-domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
-chown www-data.www-data $domainSock_dir
-# Make Folder XRay
-mkdir -p /var/log/xray
-mkdir -p /etc/xray
-chown www-data.www-data /var/log/xray
-chmod +x /var/log/xray
-touch /var/log/xray/access.log
-touch /var/log/xray/error.log
-touch /var/log/xray/access2.log
-touch /var/log/xray/error2.log
 # / / Ambil Xray Core Version Terbaru
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
+latest_version="$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
 
+# / / Installation Xray Core
+xraycore_link="https://github.com/XTLS/Xray-core/releases/download/v$latest_version/xray-linux-64.zip"
 
-echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
-## crt xray
-mkdir /root/.acme.sh
-curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
-chmod +x /root/.acme.sh/acme.sh
-/root/.acme.sh/acme.sh --upgrade --auto-upgrade
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-
-
-# set uuid
+# 
 uuid=$(cat /proc/sys/kernel/random/uuid)
-# xray config
-cat > /etc/xray/config.json << END
+
+# / / Make Main Directory
+mkdir -p /usr/bin/xray
+mkdir -p /etc/xray
+
+# / / Unzip Xray Linux 64
+cd `mktemp -d`
+curl -sL "$xraycore_link" -o xray.zip
+unzip -q xray.zip && rm -rf xray.zip
+mv xray /usr/local/bin/xray
+chmod +x /usr/local/bin/xray
+
+# Make Folder XRay
+mkdir -p /var/log/xray/
+#
+wget -q -O /usr/local/bin/geosite.dat "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/geosite.dat"
+wget -q -O /usr/local/bin/geoip.dat "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/geoip.dat"
+
+#
+cat > /etc/xray/vmessgrpc.json << END
 {
     "log": {
             "access": "/var/log/xray/access5.log",
@@ -133,6 +107,7 @@ cat > /etc/xray/config.json << END
                 "tlsSettings": {
                     "serverName": "${domain}",
                     "alpn": [
+                        "http/1.1",
                         "h2"
                     ],
                     "certificates": [
@@ -143,12 +118,12 @@ cat > /etc/xray/config.json << END
                     ]
                 },
                 "grpcSettings": {
-                    "serviceName": "vmess-grpc"
+                    "serviceName": "GunService"
                 }
             }
         }
     ],
-  "outbounds": [
+    "outbounds": [
     {
       "protocol": "freedom",
       "settings": {}
@@ -213,72 +188,48 @@ cat > /etc/xray/config.json << END
     },
     "system": {
       "statsInboundUplink": true,
-      "statsInboundDownlink": true,
-      "statsOutboundUplink" : true,
-      "statsOutboundDownlink" : true
+      "statsInboundDownlink": true
     }
   }
 }
 END
-rm -rf /etc/systemd/system/xray.service.d
-cat <<EOF> /etc/systemd/system/xray.service
-Description=Xray Service
-Documentation=https://github.com/xtls
-After=network.target nss-lookup.target
 
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE                                 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /etc/xray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
-LimitNPROC=10000
-LimitNOFILE=1000000
 
-[Install]
-WantedBy=multi-user.target
 
-EOF
-cat > /etc/systemd/system/runn.service <<EOF
+cat > /etc/systemd/system/vmess-grpc.service << EOF
 [Unit]
-Description=Mampus-Anjeng
-After=network.target
-
+Description=XRay VMess GRPC Service
+Documentation=https://speedtest.net https://github.com/XTLS/Xray-core
+After=network.target nss-lookup.target
 [Service]
-Type=simple
-ExecStartPre=-/usr/bin/mkdir -p /var/run/xray
-ExecStart=/usr/bin/chown www-data:www-data /var/run/xray
-Restart=on-abort
-
+User=root
+NoNewPrivileges=true
+ExecStart=/usr/local/bin/xray -config /etc/xray/vmessgrpc.json
+RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
 
 
+iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+iptables -I INPUT -m state --state NEW -m udp -p udp --dport 443 -j ACCEPT
+iptables-save > /etc/iptables.up.rules
+iptables-restore -t < /etc/iptables.up.rules
+netfilter-persistent save
+netfilter-persistent reload
 systemctl daemon-reload
-echo -e "[ ${green}ok${NC} ] Enable & restart xray "
-systemctl enable xray
-systemctl restart xray
-systemctl enable runn
-systemctl restart runn
-
-
-wget -q -O /usr/bin/add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh" && chmod +x /usr/bin/add
-wget -q -O /usr/bin/del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh" && chmod +x /usr/bin/del
-wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh" && chmod +x /usr/bin/menu
-
-yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
-yellow "xray/Vmess"
-yellow "xray/Vless"
+systemctl enable vmess-grpc
+systemctl restart vmess-grpc
 clear
-echo -e "[ ${green}INFO$NC ] SETTING SERVER SUKSES"
-sleep 3
-
-
-cd
-rm /root/yha20.sh
-systemctl start xray.service
-cd
+#
+cd /usr/bin
+wget -O add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh"
+wget -O del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh"
+wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh"
+chmod +x menu
+chmod +x add
+chmod +x del
 clear
-bash .profile
+echo "menu" >> /root/.profile
+clear
+menu
