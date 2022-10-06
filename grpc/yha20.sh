@@ -18,7 +18,8 @@ touch /etc/xray/domain
 touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
-
+clear
+yellow "DOMAIN for XRAY VPN"
 echo " "
 read -rp "Input ur domain : " -e pp
     if [ -z $pp ]; then
@@ -52,7 +53,6 @@ apt install socat cron bash-completion ntpdate -y
 ntpdate pool.ntp.org
 apt -y install chrony
 apt install zip -y
-apt install net-tools -y
 apt install curl pwgen openssl netcat cron -y
 clear
 
