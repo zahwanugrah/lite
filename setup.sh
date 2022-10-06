@@ -51,7 +51,10 @@ echo "IP=" >> /var/lib/scrz-prem/ipvps.conf
 if [ -f "/etc/xray/domain" ]; then
 clear
 echo ""
-echo -e "[ ${green}INFO ${NC}] Autoscript xray vpn lite (multi port)"
+echo -e "$green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC"
+echo -e "$green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC"
+echo -e "$green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC"
+echo -e "[ ${green}INFO${NC} ] Autoscript xray vpn lite (multi port)"
 echo -e "[ ${red}INFO${NC} ] no licence script (free lifetime)"
 echo -e "[ ${red}INFO${NC} ] Pastikan internet lancar saat insatll script"
 echo -e "[ ${red}INFO${NC} ] Hubungkan terlebih dahulu IP VPS anda ke Domain"
