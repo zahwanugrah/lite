@@ -72,7 +72,7 @@ chronyc sourcestats -v
 chronyc tracking -v
 echo -e "[ ${green}INFO$NC ] Setting service"
 clear
-yellow "XRAY VPN MULTI PORT"
+yellow "XRAY VPN VMESS ONLY"
 echo " "
 
 # install xray
