@@ -264,9 +264,9 @@ systemctl enable runn
 systemctl restart runn
 
 
-wget -q -O /usr/bin/add "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/add.sh" && chmod +x /usr/bin/add
-wget -q -O /usr/bin/del "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/del.sh" && chmod +x /usr/bin/del
-wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/rullpqh/lite/main/xray/grpc/menu.sh" && chmod +x /usr/bin/menu
+wget -q -O /usr/bin/add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh" && chmod +x /usr/bin/add
+wget -q -O /usr/bin/del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh" && chmod +x /usr/bin/del
+wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh" && chmod +x /usr/bin/menu
 
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
