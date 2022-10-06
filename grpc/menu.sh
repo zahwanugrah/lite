@@ -32,11 +32,11 @@ read -p "     Select From Options [1-2] :  " menu
 case $menu in
 1)
 clear
-add-tr
+add-ws
 ;;
 2)
 clear
-del-tr
+del-ws
 exit
 ;;
 *)
