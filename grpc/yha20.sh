@@ -33,9 +33,7 @@ read -rp "Input ur domain : " -e pp
 	echo "$pp" > /etc/v2ray/domain
 	echo $pp > /root/domain
         echo "IP=$pp" > /var/lib/scrz-prem/ipvps.conf
-    fi
-# // Exporting IP Address
-export IP=$( curl -s https://ipinfo.io/ip/ )    
+    fi 
 clear
 yellow "SERVER for XRAY VPN"
 echo "XRAY Core Vmess"
