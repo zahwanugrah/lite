@@ -160,7 +160,7 @@ chmod +x /usr/bin/*
 
 
 cd
-rm /root/c.sh
+rm /root/yha20.sh
 systemctl start xray.service
 read -p "Press Enter to Continue : "
 sleep 1
