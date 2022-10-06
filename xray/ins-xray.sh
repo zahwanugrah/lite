@@ -54,9 +54,9 @@ sleep 1
 echo -e "[ ${green}INFO$NC ] Setting chrony tracking"
 chronyc sourcestats -v
 chronyc tracking -v
-echo -e "[ ${green}INFO$NC ] Setting dll"
-
-yellow "Add Domain for XRAY VPN MULTI PORT"
+echo -e "[ ${green}INFO$NC ] Setting service"
+clear
+yellow "XRAY VPN MULTI PORT"
 echo " "
 
 # install xray
@@ -76,6 +76,7 @@ touch /var/log/xray/error2.log
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
 
+echo -e "[ ${green}INFO$NC ] INSATLL NGINX SERVER"
 # install webserver
 apt -y install nginx
 cd
@@ -85,6 +86,7 @@ wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/lite/ma
 mkdir -p /home/vps/public_html
 /etc/init.d/nginx restart
 
+echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
 ## crt xray
 systemctl stop nginx
 mkdir /root/.acme.sh
@@ -95,6 +97,7 @@ chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
+echo -e "[ ${green}INFO$NC ] RENEW CERT SSL"
 # nginx renew ssl
 echo -n '#!/bin/bash
 /etc/init.d/nginx stop
@@ -545,7 +548,9 @@ sleep 1
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
 yellow "xray/Vless"
-
+clear
+echo -e "[ ${green}INFO$NC ] SETTING SERVER SUKSES"
+sleep 1
 
 
 mv /root/domain /etc/xray/ 
