@@ -141,14 +141,13 @@ echo "=====================-[ SCRIPT INFO ]-===================="
 echo ""
 echo "----------------------------------------------------------"
 echo ""
-echo ""
 echo "   >>> Service & Port"  | tee -a log-install.txt
-echo "   - Nginx                   : 81" | tee -a log-install.txt
-echo "   - XRAY  Vmess TLS + gRPC  : 443" | tee -a log-install.txt
-echo "   - XRAY  Vmess None TLS    : 80" | tee -a log-install.txt
-echo "   - XRAY  Vless TLS + gRPC  : 443" | tee -a log-install.txt
-echo "   - XRAY  Vless None TLS    : 80" | tee -a log-install.txt
 echo "   - Trojan WS + gRPC        : 443" | tee -a log-install.txt
+echo "   - XRAY  Vmess TLS + gRPC  : 443" | tee -a log-install.txt
+echo "   - XRAY  Vless TLS + gRPC  : 443" | tee -a log-install.txt
+echo "   - XRAY  Vmess None TLS    : 80" | tee -a log-install.txt
+echo "   - XRAY  Vless None TLS    : 80" | tee -a log-install.txt
+echo "   - Nginx                   : 81" | tee -a log-install.txt
 echo ""
 echo "------------------------------------------------------------"
 echo ""
