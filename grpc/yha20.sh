@@ -257,7 +257,8 @@ Restart=on-abort
 WantedBy=multi-user.target
 EOF
 
-
+iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+iptables -I INPUT -m state --state NEW -m udp -p udp --dport 443 -j ACCEPT
 
 echo -e "$yell[SERVICE]$NC Restart All service"
 systemctl daemon-reload
