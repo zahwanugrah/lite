@@ -1,20 +1,17 @@
 #!/bin/bash
+
 red='\e[1;31m'
 green='\e[0;32m'
-yell='\e[1;33m'
-tyblue='\e[1;36m'
 NC='\e[0m'
-purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
-tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
-yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+
 clear
 echo -n > /tmp/other.txt
-data=( `cat /etc/xray/config.json | grep '^#&' | cut -d ' ' -f 2 | sort | uniq`);
+data=( `cat /etc/xray/config.json | grep '^#!' | cut -d ' ' -f 2 | sort | uniq`);
 
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\E[44;1;39m         Vless User Login          \E[0m"
+echo -e "\\E[0;41;36m   Xray Vless User Login         \E[0m"
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 
 for akun in "${data[@]}"
@@ -47,7 +44,6 @@ fi
 rm -rf /tmp/ipvmess.txt
 done
 oth=$(cat /tmp/other.txt | sort | uniq | nl)
-echo "other";
 echo "$oth";
 echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 rm -rf /tmp/other.txt
@@ -55,4 +51,4 @@ rm -rf /tmp/other.txt
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu"
 
-menu
+v2ray-menu
