@@ -123,7 +123,6 @@ cat > /etc/xray/config.json << END
             "settings": {
                 "clients": [
                     {
-		        "id": "99748ae4-ff32-4dbc-af4b-b2021599a311"
                         "id": "${uuid}"
 #xray
                     }
