@@ -269,17 +269,4 @@ systemctl enable runn
 systemctl restart runn
 
 
-cd /usr/bin
-wget -O add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh"
-wget -O del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh"
-wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh"
-chmod +x menu
-chmod +x add
-chmod +x del
 
-clear
-
-clear
-echo "menu" >> /root/.profile
-clear
-menu
