@@ -9,7 +9,7 @@
 
 ![Personal VPS](https://shields.io/badge/Personal-VPS-orange?logo=jamboard&style=for-the-badge) ![Openclash](https://shields.io/badge/Service-Openclash-orange?logo=keepassxc&style=for-the-badge) ![Passwal](https://shields.io/badge/Service-Passwal-orange?logo=openvpn&style=for-the-badge) ![Free Licence](https://shields.io/badge/Free-Licence-orange?logo=testinglibrary&style=for-the-badge) ![Auto Reboot](https://shields.io/badge/Auto-Reboot-orange?logo=openapiinitiative&style=for-the-badge) ![Xtls](https://shields.io/badge/Service-Xtls%20Mini-orange?logo=ublockorigin&style=for-the-badge) ![Xray](https://shields.io/badge/Service-Xray-orange?logo=xstate&style=for-the-badge)
 
-![avatar](file/ss.png)
+![avatar](file/1.png)
 
 Ini merupakan sebuah script yang memudahkan para Pengguna VPN untuk install package-package yang diperlukan
 Selain itu Script yang sangat ringan Dan Fast Respon
