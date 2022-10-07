@@ -11,6 +11,13 @@ tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+clear
+echo "XRAY Core Vmess"
+echo "Progress..."
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+echo -e "
+"
 
 mkdir -p /etc/xray
 mkdir -p /etc/v2ray
@@ -35,25 +42,33 @@ read -rp "Input ur domain : " -e pp
         echo "IP=$pp" > /var/lib/scrz-prem/ipvps.conf
     fi 
 clear
-yellow "SERVER for XRAY VPN"
-echo "XRAY Core Vmess"
-echo "Progress..."
-MYIP=$(wget -qO- ipinfo.io/ip);
-clear
-domain=$(cat /etc/xray/domain)
-apt install iptables iptables-persistent -y
+date
+echo ""
+domain=$(cat /root/domain)
+
+mkdir -p /etc/xray
+apt clean all && apt update
 apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
 apt install socat cron bash-completion ntpdate -y
 ntpdate pool.ntp.org
 apt -y install chrony
+apt install zip -y
+apt install net-tools -y
+apt install curl pwgen openssl netcat cron -y
+clear
+apt install iptables iptables-persistent -y
+ntpdate pool.ntp.org 
 timedatectl set-ntp true
-systemctl enable chronyd && systemctl restart chronyd
-systemctl enable chrony && systemctl restart chrony
+systemctl enable chronyd
+systemctl restart chronyd
+systemctl enable chrony
+systemctl restart chrony
 timedatectl set-timezone Asia/Jakarta
 chronyc sourcestats -v
 chronyc tracking -v
-date
 clear
+yellow "XRAY VPN MULTI PORT"
+echo " "
 
 # install xray
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
@@ -70,9 +85,6 @@ touch /var/log/xray/access2.log
 touch /var/log/xray/error2.log
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
-
-
-
 ## crt xray
 echo -e "[ ${green}INFO$NC ] Installing cert ssl"
 mkdir /root/.acme.sh
@@ -81,9 +93,22 @@ chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
 /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+
+
+echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
+## crt xray
+mkdir /root/.acme.sh
+curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
+chmod +x /root/.acme.sh/acme.sh
+/root/.acme.sh/acme.sh --upgrade --auto-upgrade
+/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
-#
+
+# set uuid
+uuid=$(cat /proc/sys/kernel/random/uuid)
+# xray config
 cat > /etc/xray/config.json << END
 {
     "log": {
@@ -198,34 +223,53 @@ cat > /etc/xray/config.json << END
 }
 END
 
-
-
-cat > /etc/systemd/system/vmess-grpc.service << EOF
-[Unit]
-Description=XRay VMess GRPC Service
-Documentation=https://speedtest.net https://github.com/XTLS/Xray-core
+rm -rf /etc/systemd/system/xray.service.d
+cat <<EOF> /etc/systemd/system/xray.service
+Description=Xray Service
+Documentation=https://github.com/xtls
 After=network.target nss-lookup.target
+
 [Service]
-User=root
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE                                 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray -config /etc/xray/config.json
+ExecStart=/usr/local/bin/xray run -config /etc/xray/config.json
+Restart=on-failure
 RestartPreventExitStatus=23
+LimitNPROC=10000
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+cat > /etc/systemd/system/runn.service <<EOF
+[Unit]
+Description=Mampus-Anjeng
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/mkdir -p /var/run/xray
+ExecStart=/usr/bin/chown www-data:www-data /var/run/xray
+Restart=on-abort
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
 
-iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -m state --state NEW -m udp -p udp --dport 443 -j ACCEPT
-iptables-save > /etc/iptables.up.rules
-iptables-restore -t < /etc/iptables.up.rules
-netfilter-persistent save
-netfilter-persistent reload
+
+echo -e "$yell[SERVICE]$NC Restart All service"
 systemctl daemon-reload
-systemctl enable vmess-grpc
-systemctl restart vmess-grpc
-clear
-#
+
+echo -e "[ ${green}ok${NC} ] Enable & restart xray "
+systemctl enable xray
+systemctl restart xray
+systemctl enable runn
+systemctl restart runn
+
+
 cd /usr/bin
 wget -O add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh"
 wget -O del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh"
@@ -233,6 +277,9 @@ wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh"
 chmod +x menu
 chmod +x add
 chmod +x del
+
+clear
+
 clear
 echo "menu" >> /root/.profile
 clear
