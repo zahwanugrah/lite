@@ -39,22 +39,28 @@ clear
 echo -e "[ ${green}INFO${NC} ] Checking... "
 apt install iptables iptables-persistent -y
 sleep 1
+clear
 echo -e "[ ${green}INFO$NC ] Setting ntpdate"
 ntpdate pool.ntp.org 
 timedatectl set-ntp true
 sleep 1
+clear
 echo -e "[ ${green}INFO$NC ] Enable chronyd"
 systemctl enable chronyd
 systemctl restart chronyd
 sleep 1
+clear
 echo -e "[ ${green}INFO$NC ] Enable chrony"
 systemctl enable chrony
 systemctl restart chrony
+clear
 timedatectl set-timezone Asia/Jakarta
 sleep 1
+clear
 echo -e "[ ${green}INFO$NC ] Setting chrony tracking"
 chronyc sourcestats -v
 chronyc tracking -v
+clear
 echo -e "[ ${green}INFO$NC ] Setting service"
 clear
 yellow "XRAY VPN MULTI PORT"
@@ -65,6 +71,7 @@ sleep 1
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
+clear
 # Make Folder XRay
 mkdir -p /var/log/xray
 mkdir -p /etc/xray
@@ -80,10 +87,11 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 echo -e "[ ${green}INFO$NC ] INSATLL NGINX SERVER"
 # install webserver
 apt -y install nginx
+clear
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-#wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/lite/main/xray/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/lite/main/xray/nginx.conf"
 mkdir -p /home/vps/public_html
 #/etc/init.d/nginx restart
 echo "<?php phpinfo() ?>" > /home/vps/public_html/info.php
@@ -93,6 +101,7 @@ cd /home/vps/public_html
 wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/rullpqh/lite/main/xray/index.html"
 /etc/init.d/nginx restart
 cd
+clear
 
 echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
 ## crt xray
@@ -104,7 +113,7 @@ chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
 /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-
+clear
 echo -e "[ ${green}INFO$NC ] RENEW CERT SSL"
 # nginx renew ssl
 echo -n '#!/bin/bash
@@ -114,7 +123,7 @@ echo -n '#!/bin/bash
 ' > /usr/local/bin/ssl_renew.sh
 chmod +x /usr/local/bin/ssl_renew.sh
 if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo "15 03 */3 * * /usr/local/bin/ssl_renew.sh") | crontab;fi
-
+clear
 mkdir -p /home/vps/public_html
 
 # set uuid
@@ -407,7 +416,7 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOF
-
+clear
 #nginx config
 cat >/etc/nginx/conf.d/xray.conf <<EOF
     server {
@@ -529,13 +538,14 @@ echo -e "[ ${green}INFO$NC ] Installing bbr.."
 echo -e "$yell[SERVICE]$NC Restart All service"
 systemctl daemon-reload
 sleep 1
+clear
 echo -e "[ ${green}ok${NC} ] Enable & restart xray "
 systemctl enable xray
 systemctl restart xray
 systemctl restart nginx
 systemctl enable runn
 systemctl restart runn
-
+clear
 sleep 1
 wget -q -O /usr/bin/add-tr "https://raw.githubusercontent.com/rullpqh/lite/main/xray/add-tr.sh" && chmod +x /usr/bin/add-tr
 wget -q -O /usr/bin/add-vless "https://raw.githubusercontent.com/rullpqh/lite/main/xray/add-vless.sh" && chmod +x /usr/bin/add-vless
