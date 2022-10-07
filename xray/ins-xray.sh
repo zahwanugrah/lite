@@ -83,9 +83,18 @@ apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/lite/main/xray/nginx.conf"
+#wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/rullpqh/lite/main/xray/nginx.conf"
 mkdir -p /home/vps/public_html
+#/etc/init.d/nginx restart
+echo "<?php phpinfo() ?>" > /home/vps/public_html/info.php
+chown -R www-data:www-data /home/vps/public_html
+chmod -R g+rw /home/vps/public_html
+cd /home/vps/public_html
+#wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/rullpqh/lite/main/xray/index.html"
+wget -O var/www/index.html "https://raw.githubusercontent.com/rullpqh/lite/main/xray/index.html"
+wget -O var/www/index.css "https://raw.githubusercontent.com/rullpqh/lite/main/xray/index.css"
 /etc/init.d/nginx restart
+cd
 
 echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
 ## crt xray
