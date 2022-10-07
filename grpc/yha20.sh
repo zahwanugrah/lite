@@ -147,7 +147,7 @@ cat > /etc/xray/config.json << END
                     ]
                 },
                 "grpcSettings": {
-                    "serviceName": "grpc"
+                    "serviceName": "vmess-grpc"
                 }
             }
         }
