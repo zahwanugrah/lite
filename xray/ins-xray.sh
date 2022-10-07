@@ -531,10 +531,10 @@ sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
 sleep 1
 echo -e "[ ${green}INFO$NC ] Installing bbr.."
-#wget -q -O /usr/bin/bbr "https://raw.githubusercontent.com/rullpqh/autoscript/main/dll/bbr.sh"
-#chmod +x /usr/bin/bbr
-#bbr >/dev/null 2>&1
-#rm /usr/bin/bbr >/dev/null 2>&1
+wget -q -O /usr/bin/bbr "https://raw.githubusercontent.com/rullpqh/autoscript/main/dll/bbr.sh"
+chmod +x /usr/bin/bbr
+bbr >/dev/null 2>&1
+rm /usr/bin/bbr >/dev/null 2>&1
 echo -e "$yell[SERVICE]$NC Restart All service"
 systemctl daemon-reload
 sleep 1
@@ -563,6 +563,8 @@ wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/rullpqh/lite/main/xr
 wget -q -O /usr/bin/cert "https://raw.githubusercontent.com/rullpqh/lite/main/xray/cert.sh" && chmod +x /usr/bin/cert
 wget -q -O /usr/bin/speedtest "https://raw.githubusercontent.com/rullpqh/lite/main/xray/speedtest_cli.py" && chmod +x /usr/bin/speedtest
 sleep 1
+
+
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
 yellow "xray/Vless"
