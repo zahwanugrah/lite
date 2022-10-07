@@ -236,14 +236,15 @@ systemctl restart xray
 
 #
 cd /usr/bin
-wget -O addgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/addgrpc.sh"
-wget -O delgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/delgrpc.sh"
-wget -O renewgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/renewgrpc.sh"
-wget -O cekgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/cekgrpc.sh"
+wget -O add "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/add.sh"
+wget -O del "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/del.sh"
+wget -O menu "https://raw.githubusercontent.com/rullpqh/lite/main/grpc/menu.sh"
 
-chmod +x addgrpc
-chmod +x delgrpc
-chmod +x renewgrpc
-chmod +x cekgrpc
 
+chmod +x add
+chmod +x del
+chmod +x menu
+echo "menu" >> /root/.profile
+clear
+menu
 
