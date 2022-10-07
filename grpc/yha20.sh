@@ -84,7 +84,7 @@ chmod +x /root/.acme.sh/acme.sh
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
 #
-cat > /etc/xray/xray.json << END
+cat > /etc/xray/config.json << END
 {
     "log": {
             "access": "/var/log/xray/access5.log",
@@ -208,7 +208,7 @@ After=network.target nss-lookup.target
 [Service]
 User=root
 NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray -config /etc/xray/xray.json
+ExecStart=/usr/local/bin/xray -config /etc/xray/config.json
 RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
