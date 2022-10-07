@@ -46,29 +46,23 @@ date
 echo ""
 domain=$(cat /root/domain)
 
-mkdir -p /etc/xray
-apt clean all && apt update
+#!/bin/bash
+# ==================================
+MYIP=$(wget -qO- ipinfo.io/ip);
+clear
+domain=$(cat /etc/xray/domain)
+apt install iptables iptables-persistent -y
 apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
 apt install socat cron bash-completion ntpdate -y
 ntpdate pool.ntp.org
 apt -y install chrony
-apt install zip -y
-apt install net-tools -y
-apt install curl pwgen openssl netcat cron -y
-clear
-apt install iptables iptables-persistent -y
-ntpdate pool.ntp.org 
 timedatectl set-ntp true
-systemctl enable chronyd
-systemctl restart chronyd
-systemctl enable chrony
-systemctl restart chrony
+systemctl enable chronyd && systemctl restart chronyd
+systemctl enable chrony && systemctl restart chrony
 timedatectl set-timezone Asia/Jakarta
 chronyc sourcestats -v
 chronyc tracking -v
-clear
-yellow "XRAY VPN MULTI PORT"
-echo " "
+date
 
 # install xray
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
@@ -85,6 +79,9 @@ touch /var/log/xray/access2.log
 touch /var/log/xray/error2.log
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
+
+
+
 ## crt xray
 echo -e "[ ${green}INFO$NC ] Installing cert ssl"
 mkdir /root/.acme.sh
@@ -93,23 +90,11 @@ chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
 /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-
-
-echo -e "[ ${green}INFO$NC ] INSATLL CERT SSL"
-## crt xray
-mkdir /root/.acme.sh
-curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
-chmod +x /root/.acme.sh/acme.sh
-/root/.acme.sh/acme.sh --upgrade --auto-upgrade
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
 ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-
-
-# set uuid
-uuid=$(cat /proc/sys/kernel/random/uuid)
 #
-cat > /etc/xray/vmessgrpc.json << END
+
+#
+cat > /etc/xray/config.json << END
 {
     "log": {
             "access": "/var/log/xray/access5.log",
@@ -146,7 +131,7 @@ cat > /etc/xray/vmessgrpc.json << END
                     ]
                 },
                 "grpcSettings": {
-                    "serviceName": "GunService"
+                    "serviceName": "vmess-grpc"
                 }
             }
         }
@@ -223,8 +208,7 @@ cat > /etc/xray/vmessgrpc.json << END
 END
 
 
-
-cat > /etc/systemd/system/vmess-grpc.service << EOF
+cat > /etc/systemd/system/xray.service << EOF
 [Unit]
 Description=XRay VMess GRPC Service
 Documentation=https://speedtest.net https://github.com/XTLS/Xray-core
@@ -232,7 +216,7 @@ After=network.target nss-lookup.target
 [Service]
 User=root
 NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray -config /etc/xray/vmessgrpc.json
+ExecStart=/usr/local/bin/xray -config /etc/xray/config.json
 RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
@@ -247,10 +231,19 @@ iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
 netfilter-persistent reload
 systemctl daemon-reload
-systemctl enable vmess-grpc
-systemctl restart vmess-grpc
+systemctl enable xray
+systemctl restart xray
 
 #
+cd /usr/bin
+wget -O addgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/addgrpc.sh"
+wget -O delgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/delgrpc.sh"
+wget -O renewgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/renewgrpc.sh"
+wget -O cekgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/cekgrpc.sh"
 
+chmod +x addgrpc
+chmod +x delgrpc
+chmod +x renewgrpc
+chmod +x cekgrpc
 
 
