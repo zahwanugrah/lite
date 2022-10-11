@@ -72,7 +72,7 @@ echo -e "□ 🔰\e[32;1mCurrent Isp Name\e[0m  : $ISP"
 echo -e "□ 🔰\e[32;1mServer IP\e[0m         : ${IP}"
 echo -e "□ 🔰\e[32;1mTime Reboot VPS\e[0m   : 00:00 ( Jam 12 Malam )"
 echo -e "□ 🔰\e[32;1mLicense SC Limit\e[0m  : Lifetime"
-echo -e "□ 🔰\e[32;1mAutoScript By Dev\e[0m : BHOIKFOST YAHYA"
+echo -e "□ 🔰\e[32;1mAutoScript By Dev\e[0m : Bhoikfost Yahya"
 
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e "\E[44;1;39m             ⇱ STATUS LAYANAN ⇲                                  \E[0m"
