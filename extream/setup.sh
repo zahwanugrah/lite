@@ -20,7 +20,7 @@ touch /etc/xray/domain
 touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
-Repodir="http://xray.iceiy.com/xray/"
+Repodir="https://raw.githubusercontent.com/rullpqh/lite/main/extream/"
 
 secs_to_human() {
     echo "Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds"
