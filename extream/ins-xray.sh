@@ -23,7 +23,7 @@ echo -e "
 
 date
 echo ""
-Repodir="http://xray.iceiy.com/xray/"
+Repodir="https://raw.githubusercontent.com/rullpqh/lite/main/extream/"
 domain=$(cat /root/domain)
 sleep 1
 mkdir -p /etc/xray
