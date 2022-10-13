@@ -83,9 +83,10 @@ touch /var/log/xray/access.log
 touch /var/log/xray/error.log
 touch /var/log/xray/access2.log
 touch /var/log/xray/error2.log
+echo -e "[ ${green}INFO$NC ] INSATLL CORE XRAY"
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
-
+clear
 echo -e "[ ${green}INFO$NC ] INSATLL NGINX SERVER"
 # install webserver
 apt -y install nginx
@@ -557,7 +558,7 @@ wget -q -O /usr/bin/del-ws "${Repodir}del-ws.sh" && chmod +x /usr/bin/del-ws
 wget -q -O /usr/bin/menu "${Repodir}menu.sh" && chmod +x /usr/bin/menu
 wget -q -O /usr/bin/speedtest "${Repodir}speedtest_cli.py" && chmod +x /usr/bin/speedtest
 sleep 1
-
+clear
 
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
