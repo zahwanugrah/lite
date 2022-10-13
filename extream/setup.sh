@@ -113,6 +113,13 @@ echo -e "[ ${green}SCRIPT${NC} ] free no licence (lifetime) "
 sleep 2
 clear
 wget ${Repodir}ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+#Instal Xray
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green          Install BBR              $NC"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "[ ${green}SCRIPT${NC} ] free no licence (lifetime) "
+sleep 2
+clear
 wget ${Repodir}bbr.sh chmod +x bbr.sh && sed -i -e 's/\r$//' bbr.sh && screen -S bbr ./bbr.sh
 clear
 cat> /root/.profile << END
