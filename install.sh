@@ -56,7 +56,7 @@ cat > /etc/xray/vmessgrpc.json << END
             "settings": {
                 "clients": [
                     {
-                        "id": "${uuid}"
+                        "id": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
 #vmessgrpc
                     }
                 ],
@@ -79,7 +79,7 @@ cat > /etc/xray/vmessgrpc.json << END
                     ]
                 },
                 "grpcSettings": {
-                    "serviceName": "GunService"
+                    "serviceName": "yha"
                 }
             }
         }
@@ -180,8 +180,4 @@ netfilter-persistent reload
 systemctl daemon-reload
 systemctl enable vmess-grpc
 systemctl restart vmess-grpc
-#
-cd /usr/bin
-wget -O addgrpc "https://raw.githubusercontent.com/fisabiliyusri/Mantap/main/grpc/addgrpc.sh"
 
-chmod +x addgrpc
