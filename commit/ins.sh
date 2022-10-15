@@ -213,7 +213,7 @@ cat > /etc/xray/config.json << END
           "decryption":"none",
              "clients": [
                {
-                 "password": "${uuid}"
+                 "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
 #trojangrpc
                }
            ]
