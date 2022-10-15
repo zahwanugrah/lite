@@ -68,7 +68,7 @@ apt install nginx -y
 clear
 cd
 rm /var/www/html/*.html
-wget -O /var/www/html/index.html "https://${Installing}/xray/index.html"
+wget -O /var/www/html/index.html "https://raw.githubusercontent.com/rullpqh/lite/main/xray/index.html"
 systemctl restart nginx
 systemctl stop nginx
 cd
