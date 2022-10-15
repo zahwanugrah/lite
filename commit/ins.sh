@@ -4,7 +4,7 @@
 
 # / / Make Collor 
 red='\e[1;31m'
-green='\e[0;32m'
+green='\033[0;102m'
 yell='\e[1;33m'
 tyblue='\e[1;36m'
 NC='\e[0m'
