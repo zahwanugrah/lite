@@ -45,23 +45,6 @@ echo -e "[ ${green}INFO$NC ] Install Socat to ntpdate .. "
 apt install socat cron bash-completion ntpdate -y
 clear
 
-echo -e "[ ${green}INFO$NC ] Insstall cert ssl ..."
-# / / crt xray
-domain=$(cat /etc/xray/domain)
-mkdir /root/.acme.sh
-curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
-chmod +x /root/.acme.sh/acme.sh
-/root/.acme.sh/acme.sh --upgrade --auto-upgrade
-/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
-~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
-clear
-
-echo -e "[ ${green}INFO$NC ] Install Core Xray .. "
-# / / Ambil Xray Core Version Terbaru
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.8
-clear
-
 echo -e "[ ${green}INFO$NC ] Install Server Nginx .. "
 # / / install webserver
 apt install nginx -y
@@ -73,6 +56,29 @@ systemctl restart nginx
 systemctl stop nginx
 cd
 clear
+
+echo -e "[ ${green}INFO$NC ] Insstall cert ssl ..."
+# / / crt xray
+domain=$(cat /etc/xray/domain)
+mkdir /root/.acme.sh
+curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
+chmod +x /root/.acme.sh/acme.sh
+/root/.acme.sh/acme.sh --upgrade --auto-upgrade
+/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
+/etc/init.d/nginx stop
+"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
+/etc/init.d/nginx start
+' > /usr/local/bin/ssl_renew.sh
+chmod +x /usr/local/bin/ssl_renew.sh
+clear
+
+echo -e "[ ${green}INFO$NC ] Install Core Xray .. "
+# / / Ambil Xray Core Version Terbaru
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.8
+clear
+
 
 echo -e "[ ${green}INFO$NC ] Xray Configurasi ..."
 # / /set uuid
