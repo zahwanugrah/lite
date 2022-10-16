@@ -421,7 +421,7 @@ Restart=on-abort
 WantedBy=multi-user.target
 EOF
 clear
-#nginx config
+# nginx configurations
 cat >/etc/nginx/conf.d/xray.conf <<EOF
     server {
              listen 80;
@@ -431,16 +431,15 @@ cat >/etc/nginx/conf.d/xray.conf <<EOF
              server_name $domain;
              ssl_certificate /etc/xray/xray.crt;
              ssl_certificate_key /etc/xray/xray.key;
-             index index.html index.htm index.php default.php default.htm default.html;               
              ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:!MD5;
              ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-             root /www/xray_web/index.html;
+             root /www/xray_web;
         }
 EOF
 sed -i '$ ilocation = /vless' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_pass http://127.0.0.1:14016;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_pass http://unix:/run/xray/vless_ws.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -452,7 +451,7 @@ sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 sed -i '$ ilocation = /vmess' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_pass http://127.0.0.1:14017;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_pass http://unix:/run/xray/vmess_ws.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -464,7 +463,7 @@ sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 sed -i '$ ilocation = /trojan-ws' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
-sed -i '$ iproxy_pass http://127.0.0.1:14018;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_pass http://unix:/run/xray/trojan_ws.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -477,6 +476,18 @@ sed -i '$ ilocation = /ss-ws' /etc/nginx/conf.d/xray.conf
 sed -i '$ i{' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_pass http://127.0.0.1:30300;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Upgrade \$http_upgrade;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Connection "upgrade";' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
+sed -i '$ i}' /etc/nginx/conf.d/xray.conf
+
+sed -i '$ ilocation = /socks-ws' /etc/nginx/conf.d/xray.conf
+sed -i '$ i{' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_pass http://127.0.0.1:30001;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_http_version 1.1;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ iproxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
@@ -503,7 +514,7 @@ sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
-sed -i '$ igrpc_pass grpc://127.0.0.1:14019;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_pass grpc://unix:/run/xray/vless_grpc.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
 sed -i '$ ilocation ^~ /vmess-grpc' /etc/nginx/conf.d/xray.conf
@@ -512,7 +523,7 @@ sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
-sed -i '$ igrpc_pass grpc://127.0.0.1:14020;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_pass grpc://unix:/run/xray/vmess_grpc.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
 sed -i '$ ilocation ^~ /trojan-grpc' /etc/nginx/conf.d/xray.conf
@@ -521,7 +532,7 @@ sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
-sed -i '$ igrpc_pass grpc://127.0.0.1:14021;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_pass grpc://unix:/run/xray/trojan_grpc.sock;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
 
 sed -i '$ ilocation ^~ /ss-grpc' /etc/nginx/conf.d/xray.conf
@@ -532,6 +543,103 @@ sed -i '$ igrpc_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/ng
 sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
 sed -i '$ igrpc_pass grpc://127.0.0.1:30310;' /etc/nginx/conf.d/xray.conf
 sed -i '$ i}' /etc/nginx/conf.d/xray.conf
+
+sed -i '$ ilocation ^~ /socks-grpc' /etc/nginx/conf.d/xray.conf
+sed -i '$ i{' /etc/nginx/conf.d/xray.conf
+sed -i '$ iproxy_redirect off;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_set_header X-Real-IP \$remote_addr;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_set_header Host \$http_host;' /etc/nginx/conf.d/xray.conf
+sed -i '$ igrpc_pass grpc://127.0.0.1:30002;' /etc/nginx/conf.d/xray.conf
+sed -i '$ i}' /etc/nginx/conf.d/xray.conf
+
+cd
+sleep 1
+echo -e "[ ${green}INFO$NC ] Settings nginx" 
+rm /etc/nginx/sites-enabled/default >/dev/null 2>&1
+rm /etc/nginx/sites-available/default >/dev/null 2>&1
+
+cat>  /etc/nginx/nginx.conf <<-END
+user  www-data;
+
+worker_processes 1;
+pid /var/run/nginx.pid;
+
+events {
+	multi_accept on;
+    worker_connections 1024;
+}
+
+http {
+	gzip on;
+	gzip_vary on;
+	gzip_comp_level 5;
+	gzip_types    text/plain application/x-javascript text/xml text/css;
+
+	autoindex on;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    server_tokens off;
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+    client_max_body_size 32M;
+	client_header_buffer_size 8m;
+	large_client_header_buffers 8 8m;
+
+	fastcgi_buffer_size 8m;
+	fastcgi_buffers 8 8m;
+
+	fastcgi_read_timeout 600;
+
+	set_real_ip_from 204.93.240.0/24;
+	set_real_ip_from 204.93.177.0/24;
+	set_real_ip_from 199.27.128.0/21;
+	set_real_ip_from 173.245.48.0/20;
+	set_real_ip_from 103.21.244.0/22;
+	set_real_ip_from 103.22.200.0/22;
+	set_real_ip_from 103.31.4.0/22;
+	set_real_ip_from 141.101.64.0/18;
+	set_real_ip_from 108.162.192.0/18;
+	set_real_ip_from 190.93.240.0/20;
+	set_real_ip_from 188.114.96.0/20;
+	set_real_ip_from 197.234.240.0/22;
+	set_real_ip_from 198.41.128.0/17;
+	real_ip_header     CF-Connecting-IP;
+
+  include /etc/nginx/conf.d/*.conf;
+}
+END
+
+mkdir -p /home/vps/public_html >/dev/null 2>&1
+domain=$(cat /root/domain)
+cat> /etc/nginx/conf.d/vps.conf <<-END
+server {
+  listen       81;
+  server_name  127.0.0.1 localhost;
+  access_log /var/log/nginx/access.log;
+  error_log /var/log/nginx/error.log;
+  root   /home/vps/public_html;
+
+  location / {
+    index  index.html index.htm index.php;
+    try_files \$uri \$uri/ /index.php?\$args;
+  }
+
+  location ~ \.php$ {
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass  127.0.0.1:9000;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+  }
+}
+END
+systemctl enable nginx.service >/dev/null 2>&1
+systemctl restart nginx.service >/dev/null 2>&1
 
 sleep 1
 echo -e "[ ${green}INFO$NC ] Installing bbr.."
