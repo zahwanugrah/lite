@@ -1,6 +1,11 @@
-#!/bin/bash
-#########################
+#!/usr/bin/env bash
 
+#====================================================
+#	System Request:Debian 9+/Ubuntu 18.04+/Centos 7+
+#	Author:	bhoikfostyahya
+#	Dscription: Xray onekey Management
+#	email: admin@bhoikfostyahya.com
+#====================================================
 red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
@@ -15,19 +20,87 @@ clear
 echo "XRAY Core Vmess / Vless"
 echo "Trojan"
 echo "Progress..."
+# Make Folder XRay
+mkdir -p /var/log/xray
+mkdir -p /etc/xray
+mkdir -p /www/xray_web
+chown www-data.www-data /var/log/xray
+chmod +x /var/log/xray
+touch /var/log/xray/access.log
+touch /var/log/xray/error.log
+touch /var/log/xray/access2.log
+touch /var/log/xray/error2.log
+mkdir -p /etc/xray
+mkdir -p /www/xray_web
+mkdir -p /etc/xray
+mkdir -p /etc/v2ray
+touch /etc/xray/domain
+touch /etc/v2ray/domain
+touch /etc/xray/scdomain
+touch /etc/v2ray/scdomain
+mkdir -p /var/lib/scrz-prem >/dev/null 2>&1
+echo "IP=" >> /var/lib/scrz-prem/ipvps.conf
+if [ -f "/etc/xray/domain" ]; then
+clear
+echo ""
+echo -e "$green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC"
+echo -e "$green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC"
+echo -e "$green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC"
+echo -e "[ ${red}INFO${NC} ] Autoscript xray vpn lite (multi port)"
+echo -e "[ ${red}INFO${NC} ] no licence script (free lifetime)"
+echo -e "[ ${red}INFO${NC} ] Pastikan internet lancar saat insatll script"
+echo -e "[ ${red}INFO${NC} ] Hubungkan terlebih dahulu IP VPS anda ke Domain"
+echo -ne "[ ${yell}WARNING${NC} ] MELANJUTKAN UNTUK INSTALL AUTOSCRIPT  (y/n)? "
+read answer
+if [ "$answer" == "${answer#[Yy]}" ] ;then
+sleep 5
+exit 0
+else
+clear
+fi
+echo ""
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green ______ ______       ___________ ________            _____  $NC"   
+echo -e "$green ___  /____  /__________(_)__  /____  __/______________  /_ $NC"  
+echo -e "$green __  __ \_  __ \  __ \_  /__  //_/_  /_ _  __ \_  ___/  __/ $NC"  
+echo -e "$green _  /_/ /  / / / /_/ /  / _   <  _  __/ / /_/ /(__  )/ /_   $NC" 
+echo -e "$green /_ ___//_/ /_/\____//_/  /_/|_| /_/    \____//____/ \__/   $NC"                                                    
+echo -e "$green              ______                                        $NC" 
+echo -e "$green _____  _______ ___  /______  _______ _                     $NC"   
+echo -e "$green __  / / /  __  /_  __ \_  / / /  __  /                     $NC"  
+echo -e "$green _  /_/ // /_/ /_  / / /  /_/ // /_/ /                      $NC"   
+echo -e "$green _\__  / \__ _/ /_/ /_/_\__  / \__ _/                       $NC"   
+echo -e "$green /____/                /____/                               $NC"   
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "$green              FREE AUTOSCRIPT VPS                          $NC"
+echo -e "$green             NO LICENCE USER SETUP                         $NC"
+echo -e "$green            MULTI PORT XRAY 443 + 80                       $NC"
+echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 sleep 3
-green() { echo -e "\\033[32;1m${*}\\033[0m"; }
-red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-echo -e "
-"
+clear
 
+yellow "Add Domain for XRAY VPN"
+echo " "
+read -rp "Input ur domain : " -e pp
+    if [ -z $pp ]; then
+        echo -e "
+        Nothing input for domain!
+        Then a random domain will be created"
+    else
+        echo "$pp" > /root/scdomain
+	echo "$pp" > /etc/xray/scdomain
+	echo "$pp" > /etc/xray/domain
+	echo "$pp" > /etc/v2ray/domain
+	echo $pp > /root/domain
+        echo "IP=$pp" > /var/lib/scrz-prem/ipvps.conf
+    fi
+    
 date
 echo ""
 Repodir="https://raw.githubusercontent.com/rullpqh/lite/main/extream/"
 domain=$(cat /root/domain)
 sleep 1
-mkdir -p /etc/xray
-mkdir -p /www/xray_web
+
 apt clean all && apt update
 apt install curl socat xz-utils wget apt-transport-https gnupg gnupg2 gnupg1 dnsutils lsb-release -y 
 apt install socat cron bash-completion ntpdate -y
@@ -67,23 +140,12 @@ echo -e "[ ${green}INFO$NC ] Setting service"
 clear
 yellow "XRAY VPN MULTI PORT"
 echo " "
-
 # install xray
 sleep 1
 echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
 clear
-# Make Folder XRay
-mkdir -p /var/log/xray
-mkdir -p /etc/xray
-mkdir -p /home/vps/public_html
-chown www-data.www-data /var/log/xray
-chmod +x /var/log/xray
-touch /var/log/xray/access.log
-touch /var/log/xray/error.log
-touch /var/log/xray/access2.log
-touch /var/log/xray/error2.log
 echo -e "[ ${green}INFO$NC ] INSATLL CORE XRAY"
 # / / Ambil Xray Core Version Terbaru
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.5.6
@@ -387,7 +449,7 @@ cat > /etc/xray/config.json << END
 }
 END
 rm -rf /etc/systemd/system/xray.service.d
-cat <<EOF> /etc/systemd/system/xray.service
+cat > /etc/systemd/system/xray.service <<EOF
 Description=Xray Service
 Documentation=https://github.com/xtls
 After=network.target nss-lookup.target
@@ -615,7 +677,7 @@ http {
 }
 END
 
-mkdir -p /home/vps/public_html >/dev/null 2>&1
+mkdir -p /www/xray_web >/dev/null 2>&1
 domain=$(cat /root/domain)
 cat> /etc/nginx/conf.d/vps.conf <<-END
 server {
@@ -623,7 +685,7 @@ server {
   server_name  127.0.0.1 localhost;
   access_log /var/log/nginx/access.log;
   error_log /var/log/nginx/error.log;
-  root   /home/vps/public_html;
+  root   /www/xray_web;
 
   location / {
     index  index.html index.htm index.php;
