@@ -95,7 +95,6 @@ clear
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "${Repodir}nginx.conf"
 #/etc/init.d/nginx restart
 echo "<?php phpinfo() ?>" > /www/xray_web/info.php
 chown -R www-data:www-data /www/xray_web/public_html
