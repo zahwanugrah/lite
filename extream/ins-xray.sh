@@ -39,45 +39,6 @@ touch /etc/v2ray/domain
 touch /etc/xray/scdomain
 touch /etc/v2ray/scdomain
 mkdir -p /var/lib/scrz-prem >/dev/null 2>&1
-echo "IP=" >> /var/lib/scrz-prem/ipvps.conf
-if [ -f "/etc/xray/domain" ]; then
-clear
-echo ""
-echo -e "$green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC"
-echo -e "$green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC"
-echo -e "$green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC"
-echo -e "[ ${red}INFO${NC} ] Autoscript xray vpn lite (multi port)"
-echo -e "[ ${red}INFO${NC} ] no licence script (free lifetime)"
-echo -e "[ ${red}INFO${NC} ] Pastikan internet lancar saat insatll script"
-echo -e "[ ${red}INFO${NC} ] Hubungkan terlebih dahulu IP VPS anda ke Domain"
-echo -ne "[ ${yell}WARNING${NC} ] MELANJUTKAN UNTUK INSTALL AUTOSCRIPT  (y/n)? "
-read answer
-if [ "$answer" == "${answer#[Yy]}" ] ;then
-sleep 5
-exit 0
-else
-clear
-fi
-echo ""
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green ______ ______       ___________ ________            _____  $NC"   
-echo -e "$green ___  /____  /__________(_)__  /____  __/______________  /_ $NC"  
-echo -e "$green __  __ \_  __ \  __ \_  /__  //_/_  /_ _  __ \_  ___/  __/ $NC"  
-echo -e "$green _  /_/ /  / / / /_/ /  / _   <  _  __/ / /_/ /(__  )/ /_   $NC" 
-echo -e "$green /_ ___//_/ /_/\____//_/  /_/|_| /_/    \____//____/ \__/   $NC"                                                    
-echo -e "$green              ______                                        $NC" 
-echo -e "$green _____  _______ ___  /______  _______ _                     $NC"   
-echo -e "$green __  / / /  __  /_  __ \_  / / /  __  /                     $NC"  
-echo -e "$green _  /_/ // /_/ /_  / / /  /_/ // /_/ /                      $NC"   
-echo -e "$green _\__  / \__ _/ /_/ /_/_\__  / \__ _/                       $NC"   
-echo -e "$green /____/                /____/                               $NC"   
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green              FREE AUTOSCRIPT VPS                          $NC"
-echo -e "$green             NO LICENCE USER SETUP                         $NC"
-echo -e "$green            MULTI PORT XRAY 443 + 80                       $NC"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-sleep 3
-clear
 
 yellow "Add Domain for XRAY VPN"
 echo " "
@@ -449,7 +410,7 @@ cat > /etc/xray/config.json << END
 }
 END
 rm -rf /etc/systemd/system/xray.service.d
-cat > /etc/systemd/system/xray.service <<EOF
+cat <<EOF> /etc/systemd/system/xray.service 
 Description=Xray Service
 Documentation=https://github.com/xtls
 After=network.target nss-lookup.target
