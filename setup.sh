@@ -112,8 +112,8 @@ echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━�
 echo -e "[ ${green}SCRIPT${NC} ] free no licence (lifetime) "
 sleep 2
 clear
-wget https://raw.githubusercontent.com/rullpqh/lite/main/xray/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-wget https://raw.githubusercontent.com/rullpqh/lite/main/file/bbr.sh chmod +x bbr.sh && sed -i -e 's/\r$//' bbr.sh && screen -S bbr ./bbr.sh
+wget https://raw.githubusercontent.com/zahwanugrah/lite/main/xray/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+wget https://raw.githubusercontent.com/zahwanugrah/lite/main/file/bbr.sh chmod +x bbr.sh && sed -i -e 's/\r$//' bbr.sh && screen -S bbr ./bbr.sh
 clear
 cat> /root/.profile << END
 # ~/.profile: executed by Bourne-compatible login shells.
