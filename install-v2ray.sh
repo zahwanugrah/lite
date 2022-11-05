@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Created By Satmaxt Developer
 # Some methods from 233boy/v2ray
 
 check_if_running_as_root() {
@@ -227,15 +226,15 @@ Documentation=https://www.v2fly.org/
 After=network.target nss-lookup.target
 
 [Service]
-User=nobody
+User=root
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
-ExecStart=/usr/local/bin/v2ray -config /etc/v2ray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
+ExecStart=/usr/local/bin/v2ray -config /etc/v2ray/%i.json
 LimitNPROC=10000
 LimitNOFILE=1000000
+Restart=on-failure
+RestartPreventExitStatus=23
 
 [Install]
 WantedBy=multi-user.target
@@ -253,7 +252,7 @@ EOF
   "ps": "${domain}-tls",
   "add": "${domain}",
   "port": "443",
-  "id": "a79a1bec-196c-4f34-ac2a-8842233600c5",
+  "id": "b79a1bec-196c-4f34-ac2a-8842233600c5",
   "aid": "0",
   "net": "ws",
   "type": "none",
@@ -269,7 +268,7 @@ EOF
   "ps": "${domain}-ntls",
   "add": "${domain}",
   "port": "80",
-  "id": "a79a1bec-196c-4f34-ac2a-8842233600c5",
+  "id": "b79a1bec-196c-4f34-ac2a-8842233600c5",
   "aid": "0",
   "net": "ws",
   "type": "none",
