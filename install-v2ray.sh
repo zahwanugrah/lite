@@ -226,7 +226,7 @@ Documentation=https://www.v2fly.org/
 After=network.target nss-lookup.target
 
 [Service]
-User=root
+User=nobody
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
